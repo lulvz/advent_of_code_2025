@@ -11,9 +11,9 @@ fn part_one(input: &str) -> u64 {
         // just do an unwrap since every range is complete
         let range_vector = range.split_once("-").unwrap();
         let start: u64 = range_vector.0.parse().expect("Failed to parse start value");
-        println!("{:?}", start);
+        // println!("{:?}", start);
         let end: u64 = range_vector.1.parse().expect("Failed to parse end value");
-        println!("{:?}", end);
+        // println!("{:?}", end);
         for i in start..=end {
             let i_str = i.to_string();
             if i_str[0..i_str.len() / 2] == i_str[i_str.len() / 2..i_str.len()] {
@@ -40,15 +40,8 @@ fn part_two(input: &str) -> u64 {
             // a pattern can be at max half the size of the number, maybe check every possibility
             // inside that half against the rest of the number, starting at pos 0 length 1
             for pl in 1..=i_str.len() {
-                if i_str.len() % pl != 0 {
-                    break;
-                }
                 let pattern = &i_str[0..pl];
                 for p in 1..i_str.len() / pl {
-                    // if pl > 1 {
-                    // println!("p={:?}, pl={:?}", p, pl);
-                    // println!("p*pl={:?}, p*pl+pl={:?}", p * pl, p * pl + pl);
-                    // }
                     if &i_str[pl * p..pl * p + pl] != pattern {
                         break;
                     }
@@ -97,7 +90,7 @@ mod tests {
 
     #[test]
     fn test_part2_simple() {
-        assert_eq!(part_two("2121212118-2121212124"), 2121212121);
+        assert_eq!(part_two("1188511885-1188511885"), 1188511885);
     }
     // #[test]
     // fn test_bad_add() {
