@@ -1,4 +1,4 @@
-use advent_of_code_2025::utils; 
+use advent_of_code_2025::utils;
 
 fn part_one(input: &str) -> u32 {
     // Every line has a denominator for the direction of rotation and the amount
@@ -14,13 +14,13 @@ fn part_one(input: &str) -> u32 {
         let amount: i32 = line[1..].parse().unwrap();
 
         match direction {
-            'R' =>  {
+            'R' => {
                 rotator_state = (rotator_state + amount) % 100;
-            },
+            }
             'L' => {
                 rotator_state = (rotator_state - amount) % 100;
-            },
-            _ => {},
+            }
+            _ => {}
         }
 
         if rotator_state == 0 {
@@ -41,29 +41,28 @@ fn part_two(input: &str) -> u32 {
         let amount: i32 = line[1..].parse().unwrap();
 
         match direction {
-            'R' =>  {
+            'R' => {
                 let raw_rotator_state = rotator_state + amount;
-                zero_stops = zero_stops + ((raw_rotator_state / 100).abs() as u32);
+                zero_stops += (raw_rotator_state / 100).abs() as u32;
                 // println!("Zero stops R {:?}", zero_stops);
                 rotator_state = raw_rotator_state % 100;
-            },
+            }
             'L' => {
                 let raw_rotator_state = rotator_state - amount;
                 // println!("raw: {:?}", raw_rotator_state);
                 if raw_rotator_state < 0 {
-                    zero_stops += ((raw_rotator_state-100) / 100).abs() as u32;
+                    zero_stops += ((raw_rotator_state - 100) / 100).abs() as u32;
                     if rotator_state == 0 {
                         zero_stops -= 1;
                     }
                     // println!("Zero stops L {:?}", zero_stops);
                 }
                 if raw_rotator_state == 0 {
-                    zero_stops += ((raw_rotator_state-100) / 100).abs() as u32;
+                    zero_stops += ((raw_rotator_state - 100) / 100).abs() as u32;
                 }
                 rotator_state = ((raw_rotator_state % 100) + 100) % 100;
-
-            },
-            _ => {},
+            }
+            _ => {}
         }
         // println!("{:?}", rotator_state);
 
@@ -88,3 +87,4 @@ fn main() {
         }
     }
 }
+
