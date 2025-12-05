@@ -21,7 +21,7 @@ fn part_one(input: &str) -> u64 {
 
             for li in -1..=1_isize {
                 let ei = i as isize + li;
-                if ei < 0 || ei as usize >= printing_department_map[i].len() {
+                if ei < 0 || ei as usize >= printing_department_map.len() {
                     continue;
                 }
                 for lj in -1..=1_isize {
@@ -30,7 +30,7 @@ fn part_one(input: &str) -> u64 {
                     }
 
                     let ej = j as isize + lj;
-                    if ej < 0 || ej as usize >= printing_department_map.len() {
+                    if ej < 0 || ej as usize >= printing_department_map[ei as usize].len() {
                         continue;
                     }
 
@@ -42,7 +42,6 @@ fn part_one(input: &str) -> u64 {
 
             if neighbours < 4 {
                 acc += 1;
-                println!("i,j: {:?},{:?}", i, j);
             }
         }
     }
@@ -50,7 +49,7 @@ fn part_one(input: &str) -> u64 {
     acc
 }
 
-fn part_two(input: &str) -> u64 {
+fn part_two(_input: &str) -> u64 {
     // for part two we have to remove the rolls of paper we identify
     // and in the next iteration identify the new rolls of paper accesible
     // and remove them too, repeating this, then return the total removed
