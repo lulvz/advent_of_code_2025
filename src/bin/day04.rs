@@ -49,11 +49,62 @@ fn part_one(input: &str) -> u64 {
     acc
 }
 
-fn part_two(_input: &str) -> u64 {
+fn part_two(input: &str) -> u64 {
     // for part two we have to remove the rolls of paper we identify
     // and in the next iteration identify the new rolls of paper accesible
     // and remove them too, repeating this, then return the total removed
-    32
+    let mut printing_department_map: Vec<Vec<bool>> = input
+        .lines()
+        .map(|l| l.chars().map(|c| c == '@').collect())
+        .collect();
+
+    let mut acc = 0;
+    let mut last_removed = 1;
+    let mut last_removed_positions: Vec<(usize, usize)> = Vec::new();
+    while last_removed > 0 {
+        for last_removed_position in last_removed_positions.iter() {
+            printing_department_map[last_removed_position.0][last_removed_position.1] = false;
+        }
+        last_removed_positions.clear();
+        last_removed = 0;
+        for i in 0..printing_department_map.len() {
+            for j in 0..printing_department_map[i].len() {
+                if !printing_department_map[i][j] {
+                    continue;
+                }
+                let mut neighbours = 0;
+
+                for li in -1..=1_isize {
+                    let ei = i as isize + li;
+                    if ei < 0 || ei as usize >= printing_department_map.len() {
+                        continue;
+                    }
+                    for lj in -1..=1_isize {
+                        if li == 0 && lj == 0 {
+                            continue;
+                        }
+
+                        let ej = j as isize + lj;
+                        if ej < 0 || ej as usize >= printing_department_map[ei as usize].len() {
+                            continue;
+                        }
+
+                        if printing_department_map[ei as usize][ej as usize] {
+                            neighbours += 1;
+                        }
+                    }
+                }
+
+                if neighbours < 4 {
+                    last_removed += 1;
+                    last_removed_positions.push((i as usize, j as usize));
+                }
+            }
+        }
+        acc += last_removed;
+    }
+
+    acc
 }
 
 fn main() {
@@ -85,10 +136,10 @@ mod tests {
     //     assert_eq!(part_one("987654321111111"), 98);
     // }
 
-    // #[test]
-    // fn test_part2_example() {
-    //     assert_eq!(part_two(EXAMPLE_STRING), 3121910778619);
-    // }
+    #[test]
+    fn test_part2_example() {
+        assert_eq!(part_two(EXAMPLE_STRING), 43);
+    }
     //
     // #[test]
     // fn test_part2_simple() {
