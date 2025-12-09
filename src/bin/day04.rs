@@ -97,7 +97,7 @@ fn part_two(input: &str) -> u64 {
 
                 if neighbours < 4 {
                     last_removed += 1;
-                    last_removed_positions.push((i as usize, j as usize));
+                    last_removed_positions.push((i, j));
                 }
             }
         }

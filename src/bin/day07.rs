@@ -1,10 +1,34 @@
 use advent_of_code_2025::utils;
 
 fn part_one(input: &str) -> u64 {
-    32
+    let mut times_split = 0;
+    let mut current_lasers: Vec<bool> =
+        vec![false; input.lines().next().map(|l| l.bytes().count()).unwrap()];
+
+    for l in input.lines() {
+        for (j, c) in l.bytes().enumerate() {
+            match c {
+                b'.' => {}
+                b'S' => {
+                    current_lasers[j] = true;
+                }
+                b'^' => {
+                    if current_lasers[j] {
+                        current_lasers[j] = false;
+                        current_lasers[j - 1] = true;
+                        current_lasers[j + 1] = true;
+                        times_split += 1;
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    times_split
 }
 
-fn part_two(input: &str) -> u64 {
+fn part_two(_input: &str) -> u64 {
     32
 }
 
@@ -25,12 +49,27 @@ fn main() {
 mod tests {
     use super::*;
 
-    const EXAMPLE_STRING: &str =
-        "123 328  51 64 \n 45 64  387 23 \n  6 98  215 314\n*   +   *   +  \n";
+    const EXAMPLE_STRING: &str = ".......S.......
+...............
+.......^.......
+...............
+......^.^......
+...............
+.....^.^.^.....
+...............
+....^.^...^....
+...............
+...^.^...^.^...
+...............
+..^...^.....^..
+...............
+.^.^.^.^.^...^.
+...............
+";
 
     #[test]
     fn test_part1_example() {
-        assert_eq!(part_one(EXAMPLE_STRING), 4277556);
+        assert_eq!(part_one(EXAMPLE_STRING), 21);
     }
 
     // #[test]
@@ -38,15 +77,15 @@ mod tests {
     //     assert_eq!(part_one("987654321111111"), 98);
     // }
 
-    #[test]
-    fn test_part2_example() {
-        assert_eq!(part_two(EXAMPLE_STRING), 3263827);
-    }
-
-    #[test]
-    fn test_part2_alt_example() {
-        assert_eq!(part_two_alt(EXAMPLE_STRING), 3263827);
-    }
+    // #[test]
+    // fn test_part2_example() {
+    //     assert_eq!(part_two(EXAMPLE_STRING), 3263827);
+    // }
+    //
+    // #[test]
+    // fn test_part2_alt_example() {
+    //     assert_eq!(part_two_alt(EXAMPLE_STRING), 3263827);
+    // }
     //
     // #[test]
     // fn test_part2_simple() {
