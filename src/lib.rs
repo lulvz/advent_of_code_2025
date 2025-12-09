@@ -11,6 +11,6 @@ pub mod utils {
         let mut contents = String::new();
         file.read_to_string(&mut contents)?;
         
-        Ok(contents.trim().to_string()) 
+        Ok(contents.to_string()) 
     }
 }
