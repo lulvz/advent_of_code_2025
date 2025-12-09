@@ -2,8 +2,7 @@ use advent_of_code_2025::utils;
 
 fn part_one(input: &str) -> u64 {
     let mut times_split = 0;
-    let mut current_lasers: Vec<bool> =
-        vec![false; input.lines().next().map(|l| l.bytes().count()).unwrap()];
+    let mut current_lasers: Vec<bool> = vec![false; input.lines().next().map(|l| l.len()).unwrap()];
 
     for l in input.lines() {
         for (j, c) in l.bytes().enumerate() {
@@ -28,8 +27,29 @@ fn part_one(input: &str) -> u64 {
     times_split
 }
 
-fn part_two(_input: &str) -> u64 {
-    32
+fn part_two(input: &str) -> u64 {
+    let mut current_lasers: Vec<u64> = vec![0; input.lines().next().map(|l| l.len()).unwrap()];
+
+    for l in input.lines() {
+        for (j, c) in l.bytes().enumerate() {
+            match c {
+                b'.' => {}
+                b'S' => {
+                    current_lasers[j] = 1;
+                }
+                b'^' => {
+                    if current_lasers[j] > 0 {
+                        current_lasers[j - 1] += current_lasers[j];
+                        current_lasers[j + 1] += current_lasers[j];
+                        current_lasers[j] = 0;
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    current_lasers.iter().sum()
 }
 
 fn main() {
@@ -77,10 +97,10 @@ mod tests {
     //     assert_eq!(part_one("987654321111111"), 98);
     // }
 
-    // #[test]
-    // fn test_part2_example() {
-    //     assert_eq!(part_two(EXAMPLE_STRING), 3263827);
-    // }
+    #[test]
+    fn test_part2_example() {
+        assert_eq!(part_two(EXAMPLE_STRING), 40);
+    }
     //
     // #[test]
     // fn test_part2_alt_example() {
