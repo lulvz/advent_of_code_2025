@@ -1,5 +1,19 @@
-use advent_of_code_2025::utils::{self, Vector};
+use advent_of_code_2025::utils::{self, HasX, HasY, HasZ, Vector};
 use std::array;
+
+#[allow(dead_code)] // Suppress the warning for the whole struct
+#[derive(Debug)]
+struct JBConnection {
+    jbox_idxs: (usize, usize),
+    distance_squared: u32,
+}
+
+fn euclidean_distance_squared(a: &Vector<u32, 3>, b: &Vector<u32, 3>) -> u32 {
+    let c1 = b.x().abs_diff(*a.x());
+    let c2 = b.y().abs_diff(*a.y());
+    let c3 = b.z().abs_diff(*a.z());
+    c1 * c1 + c2 * c2 + c3 * c3
+}
 
 fn part_one(input: &str) -> u64 {
     // We are given a list of junction box positions, in the format 1,2,3\n4,5,6
@@ -8,6 +22,7 @@ fn part_one(input: &str) -> u64 {
     // we have to find the next two closest boxes, and if one of them belongs to a
     // circuit already, then that circuit gets a new box
     // We have to return the multilication of the 3 largest circuit sizes
+
     // basically im gonna slap all the points on a vector of f32 just to read the
     // values into memory, then I'm gonna iterate through the vector and calculate
     // the distances between every pair (I don't exactly know how I would represent
@@ -16,13 +31,28 @@ fn part_one(input: &str) -> u64 {
     let mut jbox_positions: Vec<Vector<u32, 3>> = Vec::new();
     for l in input.lines() {
         let mut parts = l.split(',').map(|s| s.trim().parse::<u32>().unwrap());
-        jbox_positions.push(array::from_fn(|_| parts.next().unwrap()).into());
+        let jbox_position: Vector<u32, 3> = array::from_fn(|_| parts.next().unwrap()).into();
+        jbox_positions.push(jbox_position);
     }
-    println!("{:?}", jbox_positions);
+    // println!("{:?}", jbox_positions);
 
-    let mut v1: Vector<u32, 3> = Vector::from([1, 2, 3]);
-    v1 += [1, 1, 1].into();
-    println!("{:?}", v1);
+    let mut jbox_connections: Vec<JBConnection> =
+        Vec::with_capacity((jbox_positions.len() * (jbox_positions.len() - 1)) / 2);
+    for i in 0..jbox_positions.len() {
+        for j in i + 1..jbox_positions.len() {
+            jbox_connections.push(JBConnection {
+                jbox_idxs: (i, j),
+                distance_squared: euclidean_distance_squared(
+                    &jbox_positions[i],
+                    &jbox_positions[j],
+                ),
+            })
+        }
+    }
+    jbox_connections.sort_by(|a, b| a.distance_squared.cmp(&b.distance_squared));
+
+    // now run a union find on the closest connections
+
     32
 }
 
