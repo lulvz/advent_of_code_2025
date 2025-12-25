@@ -170,6 +170,26 @@ pub mod utils {
     }
 
     // ////////////// COORDINATE IMPLEMENTATIONS /////////////////////
+    impl<T: Scalar> HasX for Vector<T, 2> {
+        type Scalar = T;
+        fn x(&self) -> &Self::Scalar {
+            &self.data[0]
+        }
+        fn x_mut(&mut self) -> &mut Self::Scalar {
+            &mut self.data[0]
+        }
+    }
+
+    impl<T: Scalar> HasY for Vector<T, 2> {
+        type Scalar = T;
+        fn y(&self) -> &Self::Scalar {
+            &self.data[1]
+        }
+        fn y_mut(&mut self) -> &mut Self::Scalar {
+            &mut self.data[1]
+        }
+    }
+
     impl<T: Scalar> HasX for Vector<T, 3> {
         type Scalar = T;
         fn x(&self) -> &Self::Scalar {
