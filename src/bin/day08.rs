@@ -19,7 +19,8 @@ fn read_jbox_positions(input: &str) -> Vec<Vector<u64, 3>> {
     let mut jbox_positions: Vec<Vector<u64, 3>> = Vec::new();
     for l in input.lines() {
         let mut parts = l.split(',').map(|s| s.trim().parse::<u64>().unwrap());
-        let jbox_position: Vector<u64, 3> = array::from_fn(|_| parts.next().unwrap()).into();
+        let jbox_position: Vector<u64, 3> =
+            array::from_fn(|_| parts.next().unwrap()).into();
         jbox_positions.push(jbox_position);
     }
     jbox_positions
@@ -40,8 +41,9 @@ fn part_one(input: &str, connections_to_take: usize) -> u64 {
     // top 1000 distances and make the circuits
     let jbox_positions: Vec<Vector<u64, 3>> = read_jbox_positions(input);
 
-    let mut jbox_connections: Vec<JBConnection> =
-        Vec::with_capacity((jbox_positions.len() * (jbox_positions.len() - 1)) / 2);
+    let mut jbox_connections: Vec<JBConnection> = Vec::with_capacity(
+        (jbox_positions.len() * (jbox_positions.len() - 1)) / 2,
+    );
     for i in 0..jbox_positions.len() {
         for j in i + 1..jbox_positions.len() {
             jbox_connections.push(JBConnection {
@@ -53,7 +55,8 @@ fn part_one(input: &str, connections_to_take: usize) -> u64 {
             })
         }
     }
-    jbox_connections.sort_by(|a, b| a.distance_squared.cmp(&b.distance_squared));
+    jbox_connections
+        .sort_by(|a, b| a.distance_squared.cmp(&b.distance_squared));
 
     // ds_roots has to be same size as the initial jbox_positions vector for the algorithm
     let mut ds_roots: Vec<usize> = (0..jbox_positions.len()).collect();
@@ -87,8 +90,9 @@ fn part_one(input: &str, connections_to_take: usize) -> u64 {
 fn part_two(input: &str) -> u64 {
     let jbox_positions: Vec<Vector<u64, 3>> = read_jbox_positions(input);
 
-    let mut jbox_connections: Vec<JBConnection> =
-        Vec::with_capacity((jbox_positions.len() * (jbox_positions.len() - 1)) / 2);
+    let mut jbox_connections: Vec<JBConnection> = Vec::with_capacity(
+        (jbox_positions.len() * (jbox_positions.len() - 1)) / 2,
+    );
     for i in 0..jbox_positions.len() {
         for j in i + 1..jbox_positions.len() {
             jbox_connections.push(JBConnection {
@@ -100,7 +104,8 @@ fn part_two(input: &str) -> u64 {
             })
         }
     }
-    jbox_connections.sort_by(|a, b| a.distance_squared.cmp(&b.distance_squared));
+    jbox_connections
+        .sort_by(|a, b| a.distance_squared.cmp(&b.distance_squared));
 
     let mut ds_roots: Vec<usize> = (0..jbox_positions.len()).collect();
     let mut ds_sizes: Vec<u64> = vec![1; jbox_positions.len()];

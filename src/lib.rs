@@ -56,7 +56,7 @@ pub mod utils {
     }
 
     // ////////////// VECTOR STRUCT /////////////////////
-    #[derive(Debug)]
+    #[derive(Debug, Copy, Clone)]
     pub struct Vector<T: Scalar, const N: usize> {
         data: [T; N],
     }
