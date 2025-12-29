@@ -158,17 +158,6 @@ mod tests {
         assert_eq!(part_one(EXAMPLE_STRING), 50);
     }
 
-    const EXAMPLE_STRING_CUSTOM: &str = "
-7,1
-11,1
-11,7
-9,7
-9,5
-2,5
-2,3
-7,3
-";
-
     // #[test]
     // fn test_part1_simple() {
     //     assert_eq!(part_one("987654321111111"), 98);
