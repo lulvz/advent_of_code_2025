@@ -10,13 +10,16 @@ fn part_one(input: &str) -> u64 {
     for range in input.split(",") {
         // just do an unwrap since every range is complete
         let range_vector = range.split_once("-").unwrap();
-        let start: u64 = range_vector.0.parse().expect("Failed to parse start value");
+        let start: u64 =
+            range_vector.0.parse().expect("Failed to parse start value");
         // println!("{:?}", start);
-        let end: u64 = range_vector.1.parse().expect("Failed to parse end value");
+        let end: u64 =
+            range_vector.1.parse().expect("Failed to parse end value");
         // println!("{:?}", end);
         for i in start..=end {
             let i_str = i.to_string();
-            if i_str[0..i_str.len() / 2] == i_str[i_str.len() / 2..i_str.len()] {
+            if i_str[0..i_str.len() / 2] == i_str[i_str.len() / 2..i_str.len()]
+            {
                 acc += i;
             }
         }
@@ -30,9 +33,11 @@ fn part_two(input: &str) -> u64 {
     for range in input.split(",") {
         // just do an unwrap since every range is complete
         let range_vector = range.split_once("-").unwrap();
-        let start: u64 = range_vector.0.parse().expect("Failed to parse start value");
+        let start: u64 =
+            range_vector.0.parse().expect("Failed to parse start value");
         // println!("{:?}", start);
-        let end: u64 = range_vector.1.parse().expect("Failed to parse end value");
+        let end: u64 =
+            range_vector.1.parse().expect("Failed to parse end value");
         // println!("{:?}", end);
         for i in start..=end {
             let mut repeats = false;

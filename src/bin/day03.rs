@@ -42,7 +42,9 @@ fn part_two(input: &str) -> u64 {
         let mut small_acc = 0;
         let mut turning_on = 0;
         while turning_on < 12 {
-            for i in indices[turning_on]..line_digits.len() - (12 - turning_on - 1) {
+            for i in
+                indices[turning_on]..line_digits.len() - (12 - turning_on - 1)
+            {
                 if line_digits[i] > line_digits[indices[turning_on]] {
                     indices[turning_on] = i;
                 }

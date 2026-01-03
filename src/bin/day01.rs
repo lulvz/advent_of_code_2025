@@ -43,7 +43,7 @@ fn part_two(input: &str) -> u32 {
         match direction {
             'R' => {
                 let raw_rotator_state = rotator_state + amount;
-                zero_stops += (raw_rotator_state / 100).abs() as u32;
+                zero_stops += (raw_rotator_state / 100).unsigned_abs();
                 // println!("Zero stops R {:?}", zero_stops);
                 rotator_state = raw_rotator_state % 100;
             }
@@ -51,14 +51,16 @@ fn part_two(input: &str) -> u32 {
                 let raw_rotator_state = rotator_state - amount;
                 // println!("raw: {:?}", raw_rotator_state);
                 if raw_rotator_state < 0 {
-                    zero_stops += ((raw_rotator_state - 100) / 100).abs() as u32;
+                    zero_stops +=
+                        ((raw_rotator_state - 100) / 100).unsigned_abs();
                     if rotator_state == 0 {
                         zero_stops -= 1;
                     }
                     // println!("Zero stops L {:?}", zero_stops);
                 }
                 if raw_rotator_state == 0 {
-                    zero_stops += ((raw_rotator_state - 100) / 100).abs() as u32;
+                    zero_stops +=
+                        ((raw_rotator_state - 100) / 100).unsigned_abs();
                 }
                 rotator_state = ((raw_rotator_state % 100) + 100) % 100;
             }
@@ -87,4 +89,3 @@ fn main() {
         }
     }
 }
-

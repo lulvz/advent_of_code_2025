@@ -30,7 +30,10 @@ fn part_one(input: &str) -> u64 {
                     }
 
                     let ej = j as isize + lj;
-                    if ej < 0 || ej as usize >= printing_department_map[ei as usize].len() {
+                    if ej < 0
+                        || ej as usize
+                            >= printing_department_map[ei as usize].len()
+                    {
                         continue;
                     }
 
@@ -63,7 +66,8 @@ fn part_two(input: &str) -> u64 {
     let mut last_removed_positions: Vec<(usize, usize)> = Vec::new();
     while last_removed > 0 {
         for last_removed_position in last_removed_positions.iter() {
-            printing_department_map[last_removed_position.0][last_removed_position.1] = false;
+            printing_department_map[last_removed_position.0]
+                [last_removed_position.1] = false;
         }
         last_removed_positions.clear();
         last_removed = 0;
@@ -85,7 +89,10 @@ fn part_two(input: &str) -> u64 {
                         }
 
                         let ej = j as isize + lj;
-                        if ej < 0 || ej as usize >= printing_department_map[ei as usize].len() {
+                        if ej < 0
+                            || ej as usize
+                                >= printing_department_map[ei as usize].len()
+                        {
                             continue;
                         }
 

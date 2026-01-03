@@ -2,7 +2,8 @@ use advent_of_code_2025::utils;
 
 fn part_one(input: &str) -> u64 {
     let mut times_split = 0;
-    let mut current_lasers: Vec<bool> = vec![false; input.lines().next().map(|l| l.len()).unwrap()];
+    let mut current_lasers: Vec<bool> =
+        vec![false; input.lines().next().map(|l| l.len()).unwrap()];
 
     for l in input.lines() {
         for (j, c) in l.bytes().enumerate() {
@@ -28,7 +29,8 @@ fn part_one(input: &str) -> u64 {
 }
 
 fn part_two(input: &str) -> u64 {
-    let mut current_lasers: Vec<u64> = vec![0; input.lines().next().map(|l| l.len()).unwrap()];
+    let mut current_lasers: Vec<u64> =
+        vec![0; input.lines().next().map(|l| l.len()).unwrap()];
 
     for l in input.lines() {
         for (j, c) in l.bytes().enumerate() {

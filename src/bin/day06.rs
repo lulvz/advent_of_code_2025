@@ -38,14 +38,14 @@ fn part_one(input: &str) -> u64 {
             // println!("{:?}, {:?}", i, op);
             match op {
                 "*" => {
-                    let mut small_acc = numbers[i * t_cols + 0];
+                    let mut small_acc = numbers[i * t_cols];
                     for j in 1..t_cols {
                         small_acc *= numbers[i * t_cols + j];
                     }
                     acc += small_acc;
                 }
                 "+" => {
-                    let mut small_acc = numbers[i * t_cols + 0];
+                    let mut small_acc = numbers[i * t_cols];
                     for j in 1..t_cols {
                         small_acc += numbers[i * t_cols + j];
                     }
@@ -108,7 +108,8 @@ fn part_two(input: &str) -> u64 {
             match c {
                 b'0'..=b'9' => {
                     numbers[col_idx * (t_cols) + digit_idx] *= 10;
-                    numbers[col_idx * (t_cols) + digit_idx] += (c - b'0') as u64;
+                    numbers[col_idx * (t_cols) + digit_idx] +=
+                        (c - b'0') as u64;
                 }
                 b' ' => {}
                 _ => {}
@@ -125,8 +126,8 @@ fn part_two(input: &str) -> u64 {
             // println!("{:?}, {:?}", i, op);
             match op {
                 "*" => {
-                    let mut small_acc = if numbers[i * t_cols + 0] > 0 {
-                        numbers[i * t_cols + 0]
+                    let mut small_acc = if numbers[i * t_cols] > 0 {
+                        numbers[i * t_cols]
                     } else {
                         1
                     };
@@ -140,7 +141,7 @@ fn part_two(input: &str) -> u64 {
                     acc += small_acc;
                 }
                 "+" => {
-                    let mut small_acc = numbers[i * t_cols + 0];
+                    let mut small_acc = numbers[i * t_cols];
                     for j in 1..largest_digit_amount {
                         small_acc += numbers[i * t_cols + j];
                     }
@@ -177,23 +178,25 @@ fn part_two_alt(input: &str) -> u64 {
     }
 
     let mut ops: Vec<u8> = Vec::new();
-    for j in 0..n_cols {
-        let c = lines[n_rows][j];
+    for &c in lines[n_rows].iter() {
         if c != b' ' {
             ops.push(c);
         }
     }
 
-    assert!(ops.len() > 0, "NO OPS?");
+    assert!(!ops.is_empty(), "NO OPS?");
+
     let mut acc: u64 = 0;
     let mut small_acc: u64 = if ops[0] == b'+' { 0 } else { 1 };
     let mut op_idx: usize = 0;
     for i in 0..t_rows {
         // use unchecked, cause its fineeeeeeeeeeeeeeeeeeeeeeeee
         if let Some(s) = unsafe {
-            str::from_utf8_unchecked(&transposed_nums[i * t_cols..i * t_cols + t_cols])
-                .split_whitespace()
-                .next()
+            str::from_utf8_unchecked(
+                &transposed_nums[i * t_cols..i * t_cols + t_cols],
+            )
+            .split_whitespace()
+            .next()
         } {
             let num: u64 = s.parse().unwrap();
             match ops[op_idx] {
@@ -215,7 +218,10 @@ fn part_two_alt(input: &str) -> u64 {
         {
             println!(
                 "{:?}",
-                str::from_utf8(&transposed_nums[i * t_cols..i * t_cols + t_cols]).unwrap()
+                str::from_utf8(
+                    &transposed_nums[i * t_cols..i * t_cols + t_cols]
+                )
+                .unwrap()
             );
         }
     }

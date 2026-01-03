@@ -6,38 +6,41 @@ fn part_one(input: &str) -> u64 {
     // product IDs, one per line. We have to find the amount of fresh available
     // products using their IDs and the ranges
     let mut acc: u64 = 0;
-    let (id_ranges_str, ids_str) = input.split_once("\n\n").expect("Couldn't find empty line to separate ranges from IDs");
+    let (id_ranges_str, ids_str) = input
+        .split_once("\n\n")
+        .expect("Couldn't find empty line to separate ranges from IDs");
     let mut id_ranges: Vec<(u64, u64)> = Vec::new();
     for l in id_ranges_str.lines() {
         // get the range in tuples and put it in the vector
-        let id_range_str = l.split_once("-")
-            .expect("Malformed range");
-        id_ranges.push((id_range_str.0.parse().expect("Not a number (start)"),
-            id_range_str.1.parse().expect("Not a number (end)")));
-        
+        let id_range_str = l.split_once("-").expect("Malformed range");
+        id_ranges.push((
+            id_range_str.0.parse().expect("Not a number (start)"),
+            id_range_str.1.parse().expect("Not a number (end)"),
+        ));
     }
     id_ranges.sort_by(|id_range_a, id_range_b| id_range_a.0.cmp(&id_range_b.0));
 
     let mut id_ranges_merged: Vec<(u64, u64)> = Vec::new();
-    for i in 0..id_ranges.len() {
+    for id_range in id_ranges.iter() {
         match id_ranges_merged.last_mut() {
             Some(last_range) => {
-                if last_range.1 >= id_ranges[i].0 { // they intercept
-                    if id_ranges[i].1 > last_range.1 {
-                        last_range.1 = id_ranges[i].1;
+                if last_range.1 >= id_range.0 {
+                    // they intercept
+                    if id_range.1 > last_range.1 {
+                        last_range.1 = id_range.1;
                     }
                 } else {
-                    id_ranges_merged.push(id_ranges[i]);
+                    id_ranges_merged.push(*id_range);
                 }
-            },
+            }
             None => {
-                id_ranges_merged.push(id_ranges[i]);
+                id_ranges_merged.push(*id_range);
             }
         }
     }
 
     // for id_range_merged in id_ranges_merged.iter() {
-        // println!("{:?}", id_range_merged);
+    // println!("{:?}", id_range_merged);
     // }
 
     // TODO BINARY SEARCH HERE
@@ -57,32 +60,35 @@ fn part_two(input: &str) -> u64 {
     // For the second part we have to find every ID that is fresh, so that would
     // be every ID in the ranges
     let mut acc: u64 = 0;
-    let (id_ranges_str, _ids_str) = input.split_once("\n\n").expect("Couldn't find empty line to separate ranges from IDs");
+    let (id_ranges_str, _ids_str) = input
+        .split_once("\n\n")
+        .expect("Couldn't find empty line to separate ranges from IDs");
     let mut id_ranges: Vec<(u64, u64)> = Vec::new();
     for l in id_ranges_str.lines() {
         // get the range in tuples and put it in the vector
-        let id_range_str = l.split_once("-")
-            .expect("Malformed range");
-        id_ranges.push((id_range_str.0.parse().expect("Not a number (start)"),
-            id_range_str.1.parse().expect("Not a number (end)")));
-        
+        let id_range_str = l.split_once("-").expect("Malformed range");
+        id_ranges.push((
+            id_range_str.0.parse().expect("Not a number (start)"),
+            id_range_str.1.parse().expect("Not a number (end)"),
+        ));
     }
     id_ranges.sort_by(|id_range_a, id_range_b| id_range_a.0.cmp(&id_range_b.0));
 
     let mut id_ranges_merged: Vec<(u64, u64)> = Vec::new();
-    for i in 0..id_ranges.len() {
+    for id_range in id_ranges.iter() {
         match id_ranges_merged.last_mut() {
             Some(last_range) => {
-                if last_range.1 >= id_ranges[i].0 { // they intercept
-                    if id_ranges[i].1 > last_range.1 {
-                        last_range.1 = id_ranges[i].1;
+                if last_range.1 >= id_range.0 {
+                    // they intercept
+                    if id_range.1 > last_range.1 {
+                        last_range.1 = id_range.1;
                     }
                 } else {
-                    id_ranges_merged.push(id_ranges[i]);
+                    id_ranges_merged.push(*id_range);
                 }
-            },
+            }
             None => {
-                id_ranges_merged.push(id_ranges[i]);
+                id_ranges_merged.push(*id_range);
             }
         }
     }
@@ -112,7 +118,8 @@ fn main() {
 mod tests {
     use super::*;
 
-    const EXAMPLE_STRING: &str = "3-5\n10-14\n16-20\n12-18\n\n1\n5\n8\n11\n17\n32";
+    const EXAMPLE_STRING: &str =
+        "3-5\n10-14\n16-20\n12-18\n\n1\n5\n8\n11\n17\n32";
 
     #[test]
     fn test_part1_example() {
