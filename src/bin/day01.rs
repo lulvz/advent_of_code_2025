@@ -77,7 +77,6 @@ fn part_two(input: &str) -> u32 {
 }
 
 fn main() {
-    // Use the imported function to read the specific input file
     match utils::read_input("day01.txt") {
         Ok(input) => {
             println!("Day 01 - Part 1: {}", part_one(input.as_str()));
